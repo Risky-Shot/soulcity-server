@@ -403,6 +403,9 @@ app.get("/api/live-videos", async (req, res) => {
     }
 });
 
+app.get("/test", async (req, res) => {
+    console.log('Test API is Running');
+})
 
 // Start server
 const PORT = process.env.PORT || 5000;
