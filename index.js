@@ -413,20 +413,51 @@ app.get("/test", async (req, res) => {
     console.log('Test API is Running');
 })
 
+async function TESTFUNCTION() {
+    console.log('Started Function');
+    // That's it, the rest is puppeteer usage as normal 😊
+    puppeteer.launch({ 
+        headless: true,  
+        args: [
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--single-process",
+            "--no-zygote",
+        ],
+        executablePath: '/usr/bin/chromium-browser'
+    }).then(async browser => {
+        console.log('Browser Launched');
+
+        const page = await browser.newPage()
+        console.log('Opened new Page');
+
+        await page.setViewport({ width: 800, height: 600 })
+
+        console.log(`Testing the stealth plugin..`);
+
+        await page.goto('https://bot.sannysoft.com')
+        console.log('Reached Page Test;')
+
+        console.log(`All done, check the screenshots. ✨`)
+        await browser.close()
+    })
+}
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, async () => {
     console.log(`Server running on port ${PORT}`)
-    await fetchLiveVideos(QUERY)
+    //await fetchLiveVideos(QUERY)
 
     // Update Channel Avatar Cache In Intervals
-    setInterval(() => {
-        if (isProcessingQueue) {
-            console.log('Interval Stopped As Already Processing')
-            return ;
-        } 
+    // setInterval(() => {
+    //     if (isProcessingQueue) {
+    //         console.log('Interval Stopped As Already Processing')
+    //         return ;
+    //     } 
 
-        if (expiredAvatarsQueue.size > 0) processAvatarQueue() ;
-        if (expiredSubQueue.size > 0) processSubQueue() ;
-    }, 10000);
+    //     if (expiredAvatarsQueue.size > 0) processAvatarQueue() ;
+    //     if (expiredSubQueue.size > 0) processSubQueue() ;
+    // }, 10000);
+
+    TESTFUNCTION();
 });
