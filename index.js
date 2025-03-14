@@ -239,7 +239,7 @@ async function processSubQueue() {
 async function fetchLiveVideos(QUERY) {
     console.log("Inside Fetch Live Video Function.");
     const browser = await puppeteer.launch({ 
-        headless: false, 
+        headless: true, 
         args: [
             "--disable-setuid-sandbox",
             "--no-sandbox",
