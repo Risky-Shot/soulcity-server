@@ -245,6 +245,7 @@ async function fetchLiveVideos(QUERY) {
             "--no-sandbox",
             "--single-process",
             "--no-zygote",
+            "--disable-gpu"
         ],
         executablePath: '/usr/bin/chromium-browser'
     });
