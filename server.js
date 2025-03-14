@@ -31,68 +31,6 @@ app.use(cors());
 
 app.set('trust proxy', 1);
 
-app.get("/api/videos", async (req, res) => {
-  let query = "soulcity"; // Default search query
-  let page = parseInt(req.query.page) || 1;
-  let limit = 12; // Default to 10 videos per page
-
-  // Check cache
-  if (liveCache.has(query)) {
-    console.log("Serving from cache:", query);
-    const cachedVideos = liveCache.get(query);
-    const paginatedVideos = cachedVideos.slice((page - 1) * limit, page * limit);
-    return res.json({
-      videos: paginatedVideos,
-      totalVideos: cachedVideos.length,
-      totalPages: Math.ceil(cachedVideos.length / limit),
-      currentPage: page,
-    });
-  }
-
-  try {
-    const response = await axios.get(BASE_URL, {
-      params: {
-        part: "snippet",
-        type: "video",
-        eventType: "live",
-        q: query,
-        maxResults: 50, // Fetch up to 50 videos at once
-        key: API_KEY,
-        videoCategoryId : 20 // Gaming Category Video Only
-      },
-    });
-
-    let videos = response.data.items;
-
-    // Filter videos based on title containing the keywords (case-insensitive)
-    const keywords = ["lifeinsoulcity", "soulcity", "soulcitybyechorp"];
-    videos = videos.filter(video =>
-      keywords.some(keyword => video.snippet.title.toLowerCase().includes(keyword.toLowerCase()))
-    );
-
-    liveCache.set(query, videos); // Store in cache
-
-    console.log("Fetching from API:", query);
-    console.log('Data :', videos);
-
-    // Apply pagination
-    const totalVideos = videos.length;
-    const totalPages = Math.ceil(totalVideos / limit);
-    const paginatedVideos = videos.slice((page - 1) * limit, page * limit);
-
-    res.json({
-      videos: paginatedVideos,
-      totalVideos,
-      totalPages,
-      currentPage: page,
-    });
-    console.log("Fetching from API:", query);
-  } catch (error) {
-    console.error("Error fetching videos:", error);
-    res.status(500).json({ error: "Failed to fetch videos" });
-  }
-});
-
 const expiredAvatarsQueue = new Set();
 const expiredSubQueue = new Set();
 
@@ -107,12 +45,13 @@ async function processAvatarQueue() {
 
     const browser = await puppeteer.launch({ 
         headless: true, 
-        // args: [
-        //     "--disable-setuid-sandbox",
-        //     "--no-sandbox",
-        //     "--single-process",
-        //     "--no-zygote",
-        // ],
+        args: [
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--single-process",
+            "--no-zygote",
+            "--disable-gpu"
+        ],
         executablePath:
             process.env.NODE_ENV === "production"
                 ? process.env.PUPPETEER_EXECUTABLE_PATH
@@ -158,12 +97,13 @@ async function processSubQueue() {
 
     const browser = await puppeteer.launch({ 
         headless: true, 
-        // args: [
-        //     "--disable-setuid-sandbox",
-        //     "--no-sandbox",
-        //     "--single-process",
-        //     "--no-zygote",
-        // ],
+        args: [
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--single-process",
+            "--no-zygote",
+            "--disable-gpu"
+        ],
         executablePath:
             process.env.NODE_ENV === "production"
                 ? process.env.PUPPETEER_EXECUTABLE_PATH
@@ -239,13 +179,14 @@ async function processSubQueue() {
 async function fetchLiveVideos(QUERY) {
     console.log("Inside Fetch Live Video Function.");
     const browser = await puppeteer.launch({ 
-        headless: false, 
-        // args: [
-        //     "--disable-setuid-sandbox",
-        //     "--no-sandbox",
-        //     "--single-process",
-        //     "--no-zygote",
-        // ],
+        headless: true, 
+        args: [
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--single-process",
+            "--no-zygote",
+            "--disable-gpu"
+        ],
         executablePath:
             process.env.NODE_ENV === "production"
                 ? process.env.PUPPETEER_EXECUTABLE_PATH
