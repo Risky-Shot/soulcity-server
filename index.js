@@ -435,7 +435,7 @@ async function TESTFUNCTION() {
 
         console.log(`Testing the stealth plugin..`);
 
-        await page.goto('https://bot.sannysoft.com')
+        await page.goto('https://www.youtube.com/results?search_query=soulcity&sp=EgJAAQ%253D%253D')
         console.log('Reached Page Test;')
 
         console.log(`All done, check the screenshots. ✨`)
@@ -444,6 +444,7 @@ async function TESTFUNCTION() {
 }
 // Start server
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, async () => {
     console.log(`Server running on port ${PORT}`)
     //await fetchLiveVideos(QUERY)
