@@ -240,16 +240,13 @@ async function fetchLiveVideos(QUERY) {
     console.log("Inside Fetch Live Video Function.");
     const browser = await puppeteer.launch({ 
         headless: false, 
-        // args: [
-        //     "--disable-setuid-sandbox",
-        //     "--no-sandbox",
-        //     "--single-process",
-        //     "--no-zygote",
-        // ],
-        executablePath:
-            process.env.NODE_ENV === "production"
-                ? process.env.PUPPETEER_EXECUTABLE_PATH
-                : puppeteer.executablePath(),
+        args: [
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--single-process",
+            "--no-zygote",
+        ],
+        executablePath: '/usr/bin/chromium-browser'
     });
 
     console.log('Broser Init');
@@ -264,7 +261,7 @@ async function fetchLiveVideos(QUERY) {
     );
 
     // Navigate to YouTube search with "soulcity" and "Live" filter
-    console.log(QUERY, MAX_RECORDS)
+    console.log(QUERY, MAX_RECORDS);
     const searchURL = `https://www.youtube.com/results?search_query=${QUERY}&sp=EgJAAQ%253D%253D`;
     //https://www.youtube.com/results?search_query=soulcity&sp=EgJAAQ%253D%253D
     await page.goto(searchURL, { waitUntil: "networkidle2" });
@@ -447,7 +444,7 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, async () => {
     console.log(`Server running on port ${PORT}`)
-    //await fetchLiveVideos(QUERY)
+    await fetchLiveVideos(QUERY);
 
     // Update Channel Avatar Cache In Intervals
     // setInterval(() => {
