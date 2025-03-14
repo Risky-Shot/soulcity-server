@@ -9,8 +9,6 @@ const app = express();
 const liveCache = new NodeCache({ stdTTL: 15 * 60 }); // Cache expires in 15 minutes (should be good time : 10000 quota -> 24*60 = 1440 minutes in a day)
 const channelAvatarCache = new NodeCache({ stdTTL: 24 * 60 * 60}); // Cache for 24 hours
 const subscriberCountCache = new NodeCache({stdTTL: 30 * 60}); // Cache for 30 minutes
-const API_KEY = process.env.YOUTUBE_API_KEY;
-const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 
