@@ -103,7 +103,19 @@ async function processAvatarQueue() {
 
     console.log('Started Processing Queue;')
 
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ 
+        headless: true, 
+        args: [
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--single-process",
+            "--no-zygote",
+        ],
+        executablePath:
+            process.env.NODE_ENV === "production"
+                ? process.env.PUPPETEER_EXECUTABLE_PATH
+                : puppeteer.executablePath(),
+    });
     const page = await browser.newPage();
 
     while (expiredAvatarsQueue.size > 0) {  // Keep running until queue is empty
@@ -142,7 +154,19 @@ async function processSubQueue() {
 
     console.log('Started Processing Queue;')
 
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ 
+        headless: true, 
+        args: [
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--single-process",
+            "--no-zygote",
+        ],
+        executablePath:
+            process.env.NODE_ENV === "production"
+                ? process.env.PUPPETEER_EXECUTABLE_PATH
+                : puppeteer.executablePath(),
+    });
     const page = await browser.newPage();
 
     while (expiredSubQueue.size > 0) {  // Keep running until queue is empty
@@ -211,7 +235,20 @@ async function processSubQueue() {
 
 // Function to scrape YouTube for live videos
 async function fetchLiveVideos(QUERY) {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ 
+        headless: true, 
+        args: [
+            "--disable-setuid-sandbox",
+            "--no-sandbox",
+            "--single-process",
+            "--no-zygote",
+        ],
+        executablePath:
+            process.env.NODE_ENV === "production"
+                ? process.env.PUPPETEER_EXECUTABLE_PATH
+                : puppeteer.executablePath(),
+    });
+    
     const page = await browser.newPage();
 
     // Set user agent to mimic a real browser
