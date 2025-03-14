@@ -29,6 +29,8 @@ app.use('/api', limiter);
 
 app.use(cors());
 
+app.set('trust proxy', 1);
+
 app.get("/api/videos", async (req, res) => {
   let query = "soulcity"; // Default search query
   let page = parseInt(req.query.page) || 1;
@@ -248,7 +250,7 @@ async function fetchLiveVideos(QUERY) {
                 ? process.env.PUPPETEER_EXECUTABLE_PATH
                 : puppeteer.executablePath(),
     });
-    
+
     const page = await browser.newPage();
 
     // Set user agent to mimic a real browser
