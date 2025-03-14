@@ -253,15 +253,15 @@ async function fetchLiveVideos(QUERY) {
     });
 
     console.log('Broser Init');
-    
+
     const page = await browser.newPage();
 
     console.log('New Empty Page Opened');
 
     // Set user agent to mimic a real browser
-    // await page.setUserAgent(
-    //     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
-    // );
+    await page.setUserAgent(
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+    );
 
     // Navigate to YouTube search with "soulcity" and "Live" filter
     console.log(QUERY, MAX_RECORDS)
