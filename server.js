@@ -12,7 +12,7 @@ const subscriberCountCache = new NodeCache({stdTTL: 30 * 60}); // Cache for 30 m
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 
-const QUERY = "soulcity"; // Default search query
+const QUERY = "game"; // Default search query
 const MAX_RECORDS = 50; // Maximum number of records to fetch (Avoid A Lot of time to fetch data)
 
 puppeteer.use(StealthPlugin());
